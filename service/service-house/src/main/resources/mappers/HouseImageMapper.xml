@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mapper.HouseImageMapper">
+    <sql id="selectAll">
+        select id,house_id,image_name,image_url,type,create_time,update_time
+    </sql>
+
+    <select id="getByHouseIdAndType" resultType="com.atguigu.entity.HouseImage">
+        <include refid="selectAll"></include>
+        from hse_house_image
+        where house_id = #{houseId}
+        and type = #{type}
+        and is_deleted = 0
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into hse_house_image (id,house_id,image_name,image_url,type,is_deleted)
+        values
+        (#{id},#{houseId},#{imageName},#{imageUrl},#{type},0)
+    </insert>
+
+    <update id="delete">
+        update hse_house_image set is_deleted = 1 where id = #{id}
+    </update>
+
+    <select id="getById" resultType="com.atguigu.entity.HouseImage">
+        <include refid="selectAll"></include>
+        from hse_house_image
+        where id = #{id}
+    </select>
+</mapper>

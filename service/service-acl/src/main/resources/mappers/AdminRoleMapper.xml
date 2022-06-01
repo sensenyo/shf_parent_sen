@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mapper.AdminRoleMapper">
+    <update id="deleteByAdminId">
+        update  acl_admin_role set is_deleted = 1  where admin_id = #{adminId}
+    </update>
+
+    <select id="getByAdminIdAndRoleId" resultType="com.atguigu.entity.AdminRole">
+        select id, role_id, admin_id
+        from acl_admin_role
+        where role_id = #{roleId}
+          and admin_id = #{adminId}
+          and is_deleted = #{isDeleted}
+    </select>
+
+    <update id="update">
+        update acl_admin_role
+        <set>
+            <if test="roleId != null and roleId !=''">
+                role_id = #{roleId},
+            </if>
+            <if test="adminId != null and adminId !=''">
+                admin_id = #{adminId},
+            </if>
+            is_deleted = #{isDeleted},
+
+            update_time = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into acl_admin_role
+            (id, role_id, admin_id)
+        values
+            (#{id}, #{roleId}, #{adminId})
+    </insert>
+</mapper>

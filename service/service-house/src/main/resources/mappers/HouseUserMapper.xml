@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mapper.HouseUserMapper">
+
+    <sql id="selectAll">
+        select id,house_id,name,phone,sex,id_no,
+        create_time,update_time,is_deleted
+    </sql>
+
+    <select id="getByHouseId" resultType="com.atguigu.entity.HouseUser">
+        <include refid="selectAll"/>
+        from hse_house_user
+        where is_deleted = 0
+        and house_id = #{houseId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into hse_house_user
+        (id,house_id,name,phone,sex,id_no)
+        values
+        (#{id},#{houseId},#{name},#{phone},#{sex},#{idNo})
+    </insert>
+
+    <update id="delete">
+        update hse_house_user set is_deleted = 1 where id = #{id}
+    </update>
+
+    <select id="getById" resultType="com.atguigu.entity.HouseUser">
+        <include refid="selectAll"/>
+        from hse_house_user
+        where is_deleted = 0
+        and id = #{id}
+    </select>
+
+    <update id="update">
+        update hse_house_user
+        <set>
+        <if test="name!='' and name!=null">
+            name = #{name},
+        </if>
+        <if test="phone!='' and phone!=null">
+            phone = #{phone},
+        </if>
+        <if test="sex!='' and sex!=null">
+            sex = #{sex},
+        </if>
+        <if test="idNo!='' and idNo!=null">
+            id_no = #{idNo},
+        </if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
