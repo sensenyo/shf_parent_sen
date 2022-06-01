@@ -25,10 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private AdminService adminService;
     @Reference
     private PermissionService permissionService;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
+        System.out.println("这是一个小BUG");
         Admin admin = adminService.getByUsername(username);
         if(admin == null)
         {
